@@ -3,14 +3,14 @@ package com.rudziak.ipldashboard.data;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import com.rudziak.ipldashboard.model.Match;
-import lombok.extern.log4j.Log4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
-@Log4j
 @Component
 public class MatchDataProcessor implements ItemProcessor<MatchInput, Match> {
-
+    private static final Logger log = LoggerFactory.getLogger(MatchDataProcessor.class);
     private final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
@@ -26,8 +26,15 @@ public class MatchDataProcessor implements ItemProcessor<MatchInput, Match> {
                 ? input.getTeam2() : input.getTeam1();
         }
 
+        long id;
+        try {
+            id = Long.parseLong(input.getId());
+        } catch (NumberFormatException e) {
+            log.warn("Unable to parse id of row. Non numeric value.");
+            return null;
+        }
         return Match.builder()
-            .id(Long.parseLong(input.getId()))
+            .id(id)
             .city(input.getCity())
             .date(LocalDate.parse(input.getDate(), FORMAT))
             .playerOfMatch(input.getPlayer_of_match())
