@@ -6,9 +6,7 @@ import com.rudziak.ipldashboard.model.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.stereotype.Component;
 
-@Component
 public class MatchDataProcessor implements ItemProcessor<MatchInput, Match> {
     private static final Logger log = LoggerFactory.getLogger(MatchDataProcessor.class);
     private final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
