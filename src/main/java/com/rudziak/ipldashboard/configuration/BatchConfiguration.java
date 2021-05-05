@@ -36,18 +36,15 @@ public class BatchConfiguration {
 
     @Bean
     public FlatFileItemReader<MatchInput> reader() {
-        return new FlatFileItemReaderBuilder<MatchInput>()
-            .name("MatchItemReader")
+        return new FlatFileItemReaderBuilder<MatchInput>().name("MatchItemReader")
             .resource(new ClassPathResource("match-data.csv"))
             .delimited()
             .names(FIELD_NAMES)
-            .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {
-                @Override
-                public void setTargetType(Class<? extends MatchInput> type) {
-                    super.setTargetType(MatchInput.class);
+            .fieldSetMapper(new BeanWrapperFieldSetMapper<MatchInput>() {
+                {
+                    setTargetType(MatchInput.class);
                 }
-            })
-            .build();
+            }).build();
     }
 
     @Bean
@@ -61,12 +58,13 @@ public class BatchConfiguration {
             .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
             .sql("INSERT INTO match (id, city, date, player_of_match, venue, team1, team2, toss_winner, toss_decision, match_winner, result, result_margin, umpire1, umpire2) "
                 + "VALUES (:id, :city, :date, :playerOfMatch, :venue, :team1, :team2, :tossWinner, :tossDecision, :matchWinner, :result, :resultMargin, :umpire1, :umpire2)")
+            .dataSource(dataSource)
             .build();
     }
 
     @Bean
-    public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
-        return jobBuilderFactory.get("importUserJob")
+    public Job importMatch(JobCompletionNotificationListener listener, Step step1) {
+        return jobBuilderFactory.get("importMatch")
             .incrementer(new RunIdIncrementer())
             .listener(listener)
             .flow(step1)

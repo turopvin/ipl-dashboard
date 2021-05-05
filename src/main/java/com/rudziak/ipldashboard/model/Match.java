@@ -3,12 +3,14 @@ package com.rudziak.ipldashboard.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 @Setter
