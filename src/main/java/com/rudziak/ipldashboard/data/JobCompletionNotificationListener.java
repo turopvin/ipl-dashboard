@@ -8,6 +8,7 @@ import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     private final EntityManager em;
 
     @Override
+    @Transactional
     public void afterJob(JobExecution jobExecution) {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("Batch job is finished! Verifying...");
@@ -31,13 +33,13 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
             em.createQuery("select m.team1, count(m) from Match m group by m.team1", Object[].class)
                     .getResultList()
                     .stream()
-                    .map(m -> new Team((String) m[0], (int) m[1]))
+                    .map(m -> new Team((String) m[0], (long) m[1]))
                     .forEach(team -> teamData.put(team.getTeamName(), team));
 
             em.createQuery("select m.team2, count(m) from Match m group by m.team2", Object[].class)
                     .getResultList()
                     .stream()
-                    .map(m -> new Team((String) m[0], (int) m[1]))
+                    .map(m -> new Team((String) m[0], (long) m[1]))
                     .forEach(team -> {
                         if (teamData.containsKey(team.getTeamName())) {
                             final Team exTeam = teamData.get(team.getTeamName());
@@ -51,9 +53,11 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
                     .getResultList()
                     .forEach(objects -> {
                         final String matchWinner = (String) objects[0];
-                        final int count = (int) objects[1];
-                        teamData.get(matchWinner)
-                                .setTotalWins(count);
+                        final long count = (long) objects[1];
+                        final Team team = teamData.get(matchWinner);
+                        if (team != null) {
+                            team.setTotalWins(count);
+                        }
                     });
 
             teamData.values().forEach(em::persist);
