@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/teams")
+@RequestMapping("/team")
 @RequiredArgsConstructor
 public class TeamController {
 
