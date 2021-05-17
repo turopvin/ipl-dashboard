@@ -1,4 +1,4 @@
-package com.rudziak.ipldashboard.model;
+package com.rudziak.ipldashboard.context.match;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

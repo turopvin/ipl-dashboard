@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 import com.rudziak.ipldashboard.data.JobCompletionNotificationListener;
 import com.rudziak.ipldashboard.data.MatchDataProcessor;
 import com.rudziak.ipldashboard.data.MatchInput;
-import com.rudziak.ipldashboard.model.Match;
+import com.rudziak.ipldashboard.context.match.Match;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

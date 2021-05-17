@@ -1,4 +1,4 @@
-package com.rudziak.ipldashboard.model;
+package com.rudziak.ipldashboard.context.team;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

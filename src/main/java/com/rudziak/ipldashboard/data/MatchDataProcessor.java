@@ -2,7 +2,7 @@ package com.rudziak.ipldashboard.data;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import com.rudziak.ipldashboard.model.Match;
+import com.rudziak.ipldashboard.context.match.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;

@@ -1,6 +1,6 @@
 package com.rudziak.ipldashboard.data;
 
-import com.rudziak.ipldashboard.model.Team;
+import com.rudziak.ipldashboard.context.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
