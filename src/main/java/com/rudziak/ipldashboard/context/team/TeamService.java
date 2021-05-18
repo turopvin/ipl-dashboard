@@ -16,6 +16,9 @@ public class TeamService {
 
     public Team getTeamByName(String teamName) {
         final Team team = teamRepository.findTeamByTeamName(teamName);
+        if (team == null) {
+            return null;
+        }
 
         final PageRequest pageRequest = PageRequest.of(0, 4);
         final List<Match> matchList = matchRepository.findByTeam1OrTeam2OrderByDateDesc(teamName, teamName, pageRequest);
