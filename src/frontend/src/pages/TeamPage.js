@@ -7,7 +7,8 @@ export const TeamPage = () => {
     useEffect(
         () => {
             const fetchMatches = async () => {
-                const response = await fetch('http://localhost:8181/team/Delhi%20Capital')
+                let url = 'http://localhost:8181/team/' + encodeURIComponent('Delhi Capitals')
+                const response = await fetch(url)
                 const data = await response.json()
                 console.log(data)
             }
