@@ -1,8 +1,10 @@
-import {React, useEffect} from "react";
+import {React, useEffect, useState} from "react";
 import {MatchDetailCard} from "../components/MatchDetailCard";
 import {MatchSmallCard} from "../components/MatchSmallCard";
 
 export const TeamPage = () => {
+
+    const [team, setTeam] = useState({matches: []});
 
     useEffect(
         () => {
@@ -10,19 +12,16 @@ export const TeamPage = () => {
                 let url = 'http://localhost:8181/team/' + encodeURIComponent('Delhi Capitals')
                 const response = await fetch(url)
                 const data = await response.json()
-                console.log(data)
+                setTeam(data);
             }
             fetchMatches()
-        },
-        []
+        }, []
     )
     return (
         <div className="TeamPage">
-            <h1>Team name</h1>
-            <MatchDetailCard/>
-            <MatchSmallCard/>
-            <MatchSmallCard/>
-            <MatchSmallCard/>
+            <h1>{team.teamName}</h1>
+            <MatchDetailCard match={team.matches[0]}/>
+            {team.matches.slice(1).map(match => <MatchSmallCard match={match}/>)}
         </div>
     );
 }
