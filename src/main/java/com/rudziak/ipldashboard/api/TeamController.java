@@ -24,6 +24,7 @@ public class TeamController {
         if (team == null) {
             return ResponseEntity.notFound().build();
         }
+
         return ResponseEntity.ok(team);
     }
 }
