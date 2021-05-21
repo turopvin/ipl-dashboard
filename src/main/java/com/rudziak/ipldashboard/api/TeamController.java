@@ -1,5 +1,6 @@
 package com.rudziak.ipldashboard.api;
 
+import java.util.Optional;
 import com.rudziak.ipldashboard.context.team.Team;
 import com.rudziak.ipldashboard.context.team.TeamService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,11 @@ public class TeamController {
 
     @GetMapping("/{teamName}")
     public ResponseEntity<Team> get(@PathVariable String teamName) {
-        final Team team = teamService.getTeamByName(teamName);
-        if (team == null) {
+        final Optional<Team> team = teamService.getTeamByName(teamName);
+        if (team.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(team);
+        return ResponseEntity.ok(team.get());
     }
 }
