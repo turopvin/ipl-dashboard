@@ -11,7 +11,7 @@ export const TeamPage = () => {
     useEffect(
         () => {
             const fetchMatches = async () => {
-                let url = 'http://localhost:8181/team/' + encodeURIComponent(teamName);
+                let url = 'http://localhost:8181/teams/' + encodeURIComponent(teamName);
                 const response = await fetch(url);
                 const data = await response.json();
                 setTeam(data);
